@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Will You Be My Valentine?</title>
+
+  <style>
+    :root{
+      --pink1:#ffb3d1;
+      --pink2:#ff5fa2;
+      --pink3:#ffd1e6;
+      --red:#ff2d55;
+      --text:#231f20;
+      --card:#ffffffcc;
+    }
+
+    *{ box-sizing:border-box; }
+
+    body{
+      margin:0;
+      min-height:100vh;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      color:var(--text);
+      overflow:hidden;
+      position:relative;
+
+      /* animated valentine gradient */
+      background: radial-gradient(circle at 20% 20%, var(--pink3), transparent 55%),
+                  radial-gradient(circle at 80% 10%, rgba(255,45,85,.25), transparent 55%),
+                  linear-gradient(120deg, var(--pink1), var(--pink2), var(--pink3));
+      background-size: 200% 200%;
+      animation: bgMove 10s ease-in-out infinite alternate;
+    }
+
+    @keyframes bgMove{
+      0%{ background-position: 0% 50%; }
+      100%{ background-position: 100% 50%; }
+    }
+
+    /* sparkly overlay */
+    body::before{
+      content:"";
+      position:absolute;
+      inset:-20%;
+      background:
+        radial-gradient(circle, rgba(255,255,255,.35) 0 2px, transparent 3px) 0 0/60px 60px,
+        radial-gradient(circle, rgba(255,255,255,.20) 0 1px, transparent 2px) 0 0/35px 35px;
+      opacity:.25;
+      filter: blur(.2px);
+      animation: twinkle 9s linear infinite;
+      pointer-events:none;
+    }
+
+    @keyframes twinkle{
+      0%{ transform: translateY(0); }
+      100%{ transform: translateY(60px); }
+    }
+
+    .hearts{
+      position:absolute;
+      inset:0;
+      pointer-events:none;
+      opacity:.55;
+    }
+
+    .heart{
+      position:absolute;
+      font-size: 18px;
+      animation: floatUp linear infinite;
+      filter: drop-shadow(0 6px 14px rgba(255,45,85,.22));
+    }
+
+    @keyframes floatUp{
+      0%{ transform: translateY(20px) rotate(0deg); opacity:0; }
+      10%{ opacity:1; }
+      100%{ transform: translateY(-130vh) rotate(12deg); opacity:0; }
+    }
+
+    .card{
+      width:min(560px, 92vw);
+      padding:28px 22px;
+      background:var(--card);
+      backdrop-filter: blur(12px);
+      border-radius:22px;
+      box-shadow: 0 20px 60px rgba(0,0,0,.14);
+      text-align:center;
+      position:relative;
+      border: 1px solid rgba(255,255,255,.65);
+    }
+
+    h1{
+      margin:0 0 8px;
+      font-size: clamp(26px, 4vw, 40px);
+      letter-spacing:.2px;
+    }
+
+    .title-heart{
+      font-size: 28px;
+      display:inline-block;
+      margin-bottom: 10px;
+      animation: pop 1.2s ease-in-out infinite;
+    }
+    @keyframes pop{
+      0%,100%{ transform: scale(1); }
+      50%{ transform: scale(1.18); }
+    }
+
+    p{
+      margin:0 0 18px;
+      opacity:.85;
+      font-size: 15px;
+    }
+
+    .playground{
+      position:relative;
+      height: 230px;
+      border-radius:18px;
+      background: linear-gradient(180deg, rgba(255,255,255,.85), rgba(255,255,255,.55));
+      box-shadow: inset 0 0 0 1px rgba(0,0,0,.06);
+      overflow:hidden;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+    }
+
+    .yes-wrap{
+      position:absolute;
+      left:50%;
+      top:60%;
+      transform:translate(-50%,-50%) scale(var(--yesScale, 1));
+      transform-origin:center;
+      transition: transform .18s ease;
+    }
+
+    button, a.btn{
+      border:0;
+      cursor:pointer;
+      padding:14px 22px;
+      border-radius:999px;
+      font-weight:800;
+      font-size:18px;
+      transition: transform .15s ease, box-shadow .15s ease, filter .15s ease;
+      user-select:none;
+      -webkit-tap-highlight-color: transparent;
+      text-decoration:none;
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      gap:8px;
+      white-space: nowrap;
+    }
+
+    #yesBtn{
+      background: linear-gradient(180deg, #ff7ab2, var(--red));
+      color:white;
+      box-shadow: 0 18px 32px rgba(255,45,85,.30);
+    }
+    #yesBtn:hover{
+      transform: translateY(-1px);
+      filter: brightness(1.03);
+    }
+
+    #noBtn{
+      position:absolute;
+      left: 62%;
+      top: 34%;
+      transform: translate(-50%, -50%);
+      background: rgba(20,20,20,.92);
+      color:white;
+      box-shadow: 0 14px 26px rgba(0,0,0,.24);
+      padding:12px 18px;
+      font-size:16px;
+    }
+
+    .hint{
+      margin-top:14px;
+      font-size: 13px;
+      opacity:.75;
+    }
+
+    /* little ribbon glow inside playground */
+    .playground::after{
+      content:"";
+      position:absolute;
+      inset:-40%;
+      background: radial-gradient(circle, rgba(255,45,85,.25), transparent 55%);
+      animation: glow 6s ease-in-out infinite alternate;
+      pointer-events:none;
+    }
+
+    @keyframes glow{
+      0%{ transform: translate(-10%, -10%); opacity:.35; }
+      100%{ transform: translate(10%, 10%); opacity:.55; }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="hearts" id="hearts"></div>
+
+  <div class="card">
+    <div class="title-heart">💗</div>
+    <h1>Will you be my Valentine?</h1>
+    <p>HEHE PLEASEEEEEEEEEE 😢</p>
+
+    <div class="playground" id="playground">
+      <div class="yes-wrap" id="yesWrap">
+        <a class="btn" id="yesBtn" href="yay.html">Yes 💘</a>
+      </div>
+
+      <button id="noBtn" type="button">No 🙄</button>
+    </div>
+
+    <div class="hint">BABY NO IS SHY HUSS 😳</div>
+  </div>
+
+  <script>
+    // More floating hearts + variety (livelier)
+    const hearts = document.getElementById("hearts");
+    const heartEmojis = ["💗","💖","💘","💕","💞","💓","❤️","🩷"];
+    const heartCount = 34;
+
+    for (let i = 0; i < heartCount; i++) {
+      const s = document.createElement("div");
+      s.className = "heart";
+      s.textContent = heartEmojis[Math.floor(Math.random() * heartEmojis.length)];
+      s.style.left = Math.random() * 100 + "vw";
+      s.style.animationDuration = (5 + Math.random() * 6) + "s";
+      s.style.animationDelay = (Math.random() * 7) + "s";
+      s.style.fontSize = (14 + Math.random() * 22) + "px";
+      s.style.opacity = (0.18 + Math.random() * 0.65);
+      hearts.appendChild(s);
+    }
+
+    const playground = document.getElementById("playground");
+    const noBtn = document.getElementById("noBtn");
+    const yesWrap = document.getElementById("yesWrap");
+    const yesBtn = document.getElementById("yesBtn");
+
+    let yesScale = 1;
+
+    const noTexts = ["No 🙄", "Really? 🥺", "Please Sanu 😭", "C’mon 🫶", "One yes plz 💞"];
+    let noIndex = 0;
+
+    function clamp(v, min, max){ return Math.max(min, Math.min(max, v)); }
+
+    function moveNoAway(pointerX, pointerY){
+      const rect = playground.getBoundingClientRect();
+      const btnRect = noBtn.getBoundingClientRect();
+
+      const bx = (btnRect.left + btnRect.width/2) - rect.left;
+      const by = (btnRect.top + btnRect.height/2) - rect.top;
+
+      const px = pointerX - rect.left;
+      const py = pointerY - rect.top;
+
+      const dx = bx - px;
+      const dy = by - py;
+      const dist = Math.hypot(dx, dy);
+
+      const dangerRadius = 130;
+
+      if (dist < dangerRadius){
+        const nx = (dx / (dist || 1));
+        const ny = (dy / (dist || 1));
+
+        const strength = (dangerRadius - dist) / dangerRadius;
+        const step = 120 * strength + 40;
+
+        let newX = bx + nx * step;
+        let newY = by + ny * step;
+
+        const padding = 18;
+        const minX = padding + btnRect.width/2;
+        const maxX = rect.width - padding - btnRect.width/2;
+        const minY = padding + btnRect.height/2;
+        const maxY = rect.height - padding - btnRect.height/2;
+
+        newX = clamp(newX, minX, maxX);
+        newY = clamp(newY, minY, maxY);
+
+        noBtn.style.left = (newX / rect.width) * 100 + "%";
+        noBtn.style.top  = (newY / rect.height) * 100 + "%";
+      }
+    }
+
+    playground.addEventListener("mousemove", (e) => {
+      moveNoAway(e.clientX, e.clientY);
+    });
+
+    playground.addEventListener("touchmove", (e) => {
+      const t = e.touches[0];
+      moveNoAway(t.clientX, t.clientY);
+    }, { passive: true });
+
+    // If "No" gets clicked: yes grows unlimited + text cycles
+    noBtn.addEventListener("click", () => {
+      yesScale += 0.22; // unlimited growth
+      yesWrap.style.setProperty("--yesScale", yesScale);
+
+      noIndex = (noIndex + 1) % noTexts.length;
+      noBtn.textContent = noTexts[noIndex];
+
+      // teleport No
+      const randX = 10 + Math.random() * 80;
+      const randY = 12 + Math.random() * 70;
+      noBtn.style.left = randX + "%";
+      noBtn.style.top = randY + "%";
+    });
+  </script>
+</body>
+</html>

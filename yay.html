@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>YAAY!!</title>
+
+  <style>
+    :root{
+      --pink1:#ffb3d1;
+      --pink2:#ff4f9a;
+      --pink3:#ffe1ef;
+      --text:#231f20;
+      --card:#ffffffcc;
+      --shadow: 0 20px 60px rgba(0,0,0,.14);
+    }
+
+    *{ box-sizing:border-box; }
+
+    body{
+      margin:0;
+      min-height:100vh;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      color:var(--text);
+      overflow:hidden;
+      position:relative;
+
+      background:
+        radial-gradient(circle at 20% 20%, var(--pink3), transparent 55%),
+        radial-gradient(circle at 80% 10%, rgba(255,79,154,.22), transparent 55%),
+        linear-gradient(120deg, var(--pink1), var(--pink2), var(--pink3));
+      background-size: 200% 200%;
+      animation: bgMove 10s ease-in-out infinite alternate;
+    }
+
+    @keyframes bgMove{
+      0%{ background-position: 0% 50%; }
+      100%{ background-position: 100% 50%; }
+    }
+
+    /* Sparkle overlay */
+    body::before{
+      content:"";
+      position:absolute;
+      inset:-20%;
+      background:
+        radial-gradient(circle, rgba(255,255,255,.38) 0 2px, transparent 3px) 0 0/60px 60px,
+        radial-gradient(circle, rgba(255,255,255,.20) 0 1px, transparent 2px) 0 0/35px 35px;
+      opacity:.23;
+      animation: twinkle 9s linear infinite;
+      pointer-events:none;
+    }
+
+    @keyframes twinkle{
+      0%{ transform: translateY(0); }
+      100%{ transform: translateY(60px); }
+    }
+
+    .wrap{
+      width:min(720px, 92vw);
+      text-align:center;
+      padding: 26px 18px;
+      background: var(--card);
+      backdrop-filter: blur(12px);
+      border-radius: 24px;
+      box-shadow: var(--shadow);
+      border: 1px solid rgba(255,255,255,.7);
+      position:relative;
+      z-index:2;
+    }
+
+    .badge{
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      padding:10px 14px;
+      border-radius:999px;
+      background: rgba(255,255,255,.8);
+      box-shadow: 0 10px 24px rgba(255,79,154,.18);
+      font-weight:800;
+      letter-spacing:.3px;
+      margin-bottom: 12px;
+    }
+
+    h1{
+      margin: 6px 0 8px;
+      font-size: clamp(44px, 7vw, 86px);
+      color:#ff2f79;
+      text-shadow: 0 10px 30px rgba(255,47,121,.25);
+      animation: pop .55s ease-out, bounce 1.6s ease-in-out .55s infinite;
+    }
+
+    @keyframes pop{
+      from{ transform: scale(.82); opacity:.2; }
+      to{ transform: scale(1); opacity:1; }
+    }
+    @keyframes bounce{
+      0%,100%{ transform: translateY(0); }
+      50%{ transform: translateY(-6px); }
+    }
+
+    .msg{
+      margin: 6px auto 0;
+      font-size: 16px;
+      opacity:.85;
+      line-height:1.4;
+      max-width: 52ch;
+    }
+
+    .big-heart{
+      font-size: 32px;
+      display:inline-block;
+      margin-top: 10px;
+      animation: heartBeat 1.1s ease-in-out infinite;
+      filter: drop-shadow(0 10px 24px rgba(255,47,121,.18));
+    }
+    @keyframes heartBeat{
+      0%,100%{ transform: scale(1); }
+      50%{ transform: scale(1.18); }
+    }
+
+    /* Photo gallery */
+    .gallery{
+      margin-top: 18px;
+      display:grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+    }
+
+    .ph{
+      aspect-ratio: 1 / 1;
+      border-radius: 16px;
+      overflow:hidden;
+      background: rgba(255,255,255,.85);
+      box-shadow: 0 12px 26px rgba(0,0,0,.10);
+      border: 1px solid rgba(0,0,0,.06);
+      position:relative;
+    }
+
+    .ph img{
+      width:100%;
+      height:100%;
+      object-fit: cover;
+      display:block;
+      transform: scale(1.02);
+      transition: transform .25s ease;
+    }
+
+    .ph:hover img{ transform: scale(1.08); }
+
+    .note{
+      margin-top: 12px;
+      font-size: 13px;
+      opacity:.7;
+    }
+
+    /* Floating hearts */
+    .hearts{
+      position:absolute;
+      inset:0;
+      pointer-events:none;
+      z-index:1;
+      opacity:.75;
+    }
+    .heart{
+      position:absolute;
+      animation: floatUp linear infinite;
+      filter: drop-shadow(0 10px 20px rgba(255,47,121,.2));
+    }
+    @keyframes floatUp{
+      0%{ transform: translateY(20px) rotate(0deg); opacity:0; }
+      10%{ opacity:1; }
+      100%{ transform: translateY(-130vh) rotate(16deg); opacity:0; }
+    }
+
+    /* Confetti */
+    .confetti{
+      position:absolute;
+      top:-10px;
+      opacity:.95;
+      animation: fall linear infinite;
+      z-index:0;
+    }
+    @keyframes fall{
+      to{ transform: translateY(110vh) rotate(720deg); }
+    }
+
+    @media (max-width: 520px){
+      .gallery{ grid-template-columns: repeat(2, 1fr); }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="hearts" id="hearts"></div>
+
+  <div class="wrap">
+    <div class="badge">SHE SAID YES 🥹💖</div>
+
+    <h1>YAAY !! 🎉</h1>
+    <div class="big-heart">💗</div>
+
+    <p class="msg">
+      You just made my whole day 😭🫶<br/>
+      I’m so lucky I get to call you my Valentine.
+    </p>
+
+    <!-- PHOTO GALLERY:
+         Put your images in the same folder (or /photos folder) and change the src.
+         Example: photos/1.jpg, photos/2.jpg...
+    
+    <div class="gallery">
+      <div class="ph"><img src="photos/1.jpg" alt="photo 1"></div>
+      <div class="ph"><img src="photos/2.jpg" alt="photo 2"></div>
+      <div class="ph"><img src="photos/3.jpg" alt="photo 3"></div>
+      <div class="ph"><img src="photos/4.jpg" alt="photo 4"></div>
+      <div class="ph"><img src="photos/5.jpg" alt="photo 5"></div>
+      <div class="ph"><img src="photos/6.jpg" alt="photo 6"></div>
+    </div>
+  -->
+    <div class="note">HEHE I LOVE YOU A MILLION TIMES MORE SANU 💞</div>
+  </div>
+
+  <script>
+    // Floating hearts
+    const hearts = document.getElementById("hearts");
+    const heartEmojis = ["💗","💖","💘","💕","💞","💓","❤️","🩷"];
+    const heartCount = 28;
+
+    for (let i = 0; i < heartCount; i++) {
+      const s = document.createElement("div");
+      s.className = "heart";
+      s.textContent = heartEmojis[Math.floor(Math.random() * heartEmojis.length)];
+      s.style.left = Math.random() * 100 + "vw";
+      s.style.animationDuration = (5 + Math.random() * 6) + "s";
+      s.style.animationDelay = (Math.random() * 7) + "s";
+      s.style.fontSize = (16 + Math.random() * 24) + "px";
+      s.style.opacity = (0.18 + Math.random() * 0.75);
+      hearts.appendChild(s);
+    }
+
+    // Confetti rain (more festive)
+    const confettiCount = 170;
+    for(let i=0;i<confettiCount;i++){
+      const c = document.createElement("div");
+      c.className = "confetti";
+      c.style.left = Math.random()*100 + "vw";
+      c.style.animationDuration = (2.8 + Math.random()*4.5) + "s";
+      c.style.animationDelay = (Math.random()*2.5) + "s";
+      c.style.transform = `translateY(0) rotate(${Math.random()*360}deg)`;
+      c.style.borderRadius = Math.random() > 0.65 ? "50%" : "2px";
+      c.style.background = `hsl(${Math.floor(Math.random()*360)}, 92%, 66%)`;
+      c.style.width = (6 + Math.random()*10) + "px";
+      c.style.height = (8 + Math.random()*14) + "px";
+      document.body.appendChild(c);
+    }
+  </script>
+</body>
+</html>
